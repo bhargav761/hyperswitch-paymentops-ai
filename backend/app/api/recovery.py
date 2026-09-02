@@ -6,6 +6,8 @@ from app.models.audit import RecoveryAudit
 from app.models.payment import Payment
 from app.recovery.actions import prepare_recovery_action
 from app.recovery.decision_engine import decide_recovery
+from app.recovery.next_best_action import build_next_best_action
+from app.recovery.policy_gateway import evaluate_policy_gate
 from app.services.audit_service import create_recovery_audit
 from app.services.incident_service import analyze_payment
 
@@ -42,14 +44,63 @@ def recovery_plan(
 
     execution = prepare_recovery_action(decision)
 
+    next_best_action = build_next_best_action(
+        recovery_action=decision.action,
+        confidence=decision.confidence,
+        reason=decision.reason,
+        requires_approval=decision.requires_approval,
+        root_cause=incident["root_cause"],
+        risk_score=incident["risk_score"],
+    )
+
+    policy = evaluate_policy_gate(
+        payment_id=payment.payment_id,
+        amount=float(payment.amount),
+        action=next_best_action.action,
+        confidence=next_best_action.confidence,
+        retry_count=0,
+    )
+
+    if policy.decision == "DENY":
+        execution = {
+            **execution,
+            "executed": False,
+            "status": "blocked",
+            "message": "Recovery action blocked by policy.",
+        }
+    elif policy.decision == "APPROVAL_REQUIRED":
+        execution = {
+            **execution,
+            "executed": False,
+            "status": "approval_required",
+            "message": "Recovery action requires human approval.",
+        }
+    else:
+        execution = {
+            **execution,
+            "status": "authorized",
+            "message": (
+                "Recovery action passed policy validation "
+                "but external payment execution is not enabled."
+            ),
+        }
+
     audit = create_recovery_audit(
         db=db,
         payment_id=payment.payment_id,
-        action=decision.action,
-        status="prepared",
-        reason=decision.reason,
-        confidence=decision.confidence,
-        result=execution,
+        action=next_best_action.action,
+        status=execution["status"],
+        reason=next_best_action.reason,
+        confidence=next_best_action.confidence,
+        result={
+            "execution": execution,
+            "policy": {
+                "decision": policy.decision,
+                "allowed": policy.allowed,
+                "requires_approval": policy.requires_approval,
+                "reason_codes": list(policy.reason_codes),
+            },
+        },
     )
 
     return {
@@ -62,6 +113,21 @@ def recovery_plan(
             "requires_approval": decision.requires_approval,
         },
         "execution": execution,
+        "next_best_action": {
+            "action": next_best_action.action,
+            "confidence": next_best_action.confidence,
+            "reason": next_best_action.reason,
+            "requires_approval": next_best_action.requires_approval,
+            "delay_seconds": next_best_action.delay_seconds,
+            "reason_codes": list(next_best_action.reason_codes),
+        },
+        "policy": {
+            "decision": policy.decision,
+            "allowed": policy.allowed,
+            "requires_approval": policy.requires_approval,
+            "idempotency_key": policy.idempotency_key,
+            "reason_codes": list(policy.reason_codes),
+        },
         "audit": {
             "audit_id": audit.audit_id,
             "idempotency_key": audit.idempotency_key,
