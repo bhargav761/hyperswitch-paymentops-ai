@@ -91,3 +91,30 @@ def test_recovery_plan_returns_404_for_unknown_payment():
 
     assert response.status_code == 404
     assert response.json()["detail"] == "Payment not found"
+
+
+def test_recovery_execute_creates_pending_approval():
+    payment_id = "p45_api_approval_001"
+
+    create_payment(
+        payment_id=payment_id,
+        event_id="evt_p45_api_approval_001",
+        amount=4999,
+    )
+
+    response = client.post(
+        f"/api/v1/recovery/execute/{payment_id}"
+    )
+
+    assert response.status_code == 200
+
+    body = response.json()
+
+    assert body["policy"]["decision"] == "APPROVAL_REQUIRED"
+    assert body["execution"]["executed"] is False
+    assert body["execution"]["status"] == "approval_required"
+
+    assert body["approval"] is not None
+    assert body["approval"]["payment_id"] == payment_id
+    assert body["approval"]["action"] == "HUMAN_REVIEW"
+    assert body["approval"]["status"] == "PENDING"

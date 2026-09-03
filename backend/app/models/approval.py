@@ -6,48 +6,65 @@ from sqlalchemy.orm import Mapped, mapped_column
 from app.models.payment import Base
 
 
-class RecoveryReconciliation(Base):
-    __tablename__ = "recovery_reconciliations"
+class RecoveryApproval(Base):
+    __tablename__ = "recovery_approvals"
 
-    reconciliation_id: Mapped[str] = mapped_column(
+    approval_id: Mapped[str] = mapped_column(
         String(100),
         primary_key=True,
     )
+
     payment_id: Mapped[str] = mapped_column(
         String(100),
         index=True,
         nullable=False,
     )
-    audit_id: Mapped[str] = mapped_column(
+
+    action: Mapped[str] = mapped_column(
         String(100),
-        index=True,
         nullable=False,
     )
-    provider_event_id: Mapped[str] = mapped_column(
-        String(100),
+
+    idempotency_key: Mapped[str] = mapped_column(
+        String(200),
         unique=True,
         index=True,
         nullable=False,
     )
-    expected_status: Mapped[str] = mapped_column(
-        String(50),
-        nullable=False,
-    )
-    observed_status: Mapped[str] = mapped_column(
-        String(50),
-        nullable=False,
-    )
+
     status: Mapped[str] = mapped_column(
         String(50),
         nullable=False,
-        index=True,
+        default="PENDING",
     )
+
     reason: Mapped[str] = mapped_column(
         Text,
         nullable=False,
     )
+
+    confidence: Mapped[float] = mapped_column(
+        nullable=False,
+    )
+
+    requested_by: Mapped[str] = mapped_column(
+        String(100),
+        nullable=False,
+        default="paymentops-ai",
+    )
+
+    approved_by: Mapped[str | None] = mapped_column(
+        String(100),
+        nullable=True,
+    )
+
     created_at: Mapped[datetime] = mapped_column(
         DateTime,
         server_default=func.now(),
         nullable=False,
+    )
+
+    decided_at: Mapped[datetime | None] = mapped_column(
+        DateTime,
+        nullable=True,
     )
