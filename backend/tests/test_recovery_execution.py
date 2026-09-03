@@ -84,3 +84,23 @@ def test_blocked_policy_never_executes_provider():
 
     assert result["executed"] is False
     assert result["status"] == "blocked"
+
+def test_blocked_policy_never_executes_provider_even_for_retry():
+    policy = make_policy(
+        action="RETRY_NOW",
+        decision="DENY",
+        allowed=False,
+    )
+
+    result = execute_policy_approved_recovery(
+        policy=policy,
+        payment_id="pay_blocked",
+        amount=1000,
+        currency="INR",
+        payment_method="card",
+        connector="stripe",
+        adapter=None,
+    )
+
+    assert result["executed"] is False
+    assert result["status"] == "blocked"

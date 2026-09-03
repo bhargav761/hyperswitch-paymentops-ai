@@ -118,3 +118,52 @@ def test_recovery_execute_creates_pending_approval():
     assert body["approval"]["payment_id"] == payment_id
     assert body["approval"]["action"] == "HUMAN_REVIEW"
     assert body["approval"]["status"] == "PENDING"
+
+
+def test_recovery_execute_audits_ai_explanation():
+    payment_id = "p56_api_ai_audit_001"
+
+    create_payment(
+        payment_id=payment_id,
+        event_id="evt_p56_api_ai_audit_001",
+        amount=4999,
+    )
+
+    response = client.post(
+        f"/api/v1/recovery/execute/{payment_id}"
+    )
+
+    assert response.status_code == 200
+
+    body = response.json()
+
+    assert "ai_analysis" in body
+    assert "diagnosis" in body["ai_analysis"]
+    assert "recovery_prediction" in body["ai_analysis"]
+    assert "recommendation" in body["ai_analysis"]
+    assert "routing" in body["ai_analysis"]
+
+    db = SessionLocal()
+    try:
+        audit = (
+            db.query(__import__("app.models.audit", fromlist=["RecoveryAudit"]).RecoveryAudit)
+            .filter(
+                __import__("app.models.audit", fromlist=["RecoveryAudit"]).RecoveryAudit.payment_id
+                == payment_id
+            )
+            .first()
+        )
+
+        assert audit is not None
+
+        import json
+        result = json.loads(audit.result)
+
+        assert "ai" in result
+        assert "diagnosis" in result["ai"]
+        assert "recovery_prediction" in result["ai"]
+        assert "recommendation" in result["ai"]
+        assert "routing" in result["ai"]
+        assert "evidence" in result["ai"]
+    finally:
+        db.close()

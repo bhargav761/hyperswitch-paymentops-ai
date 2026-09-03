@@ -91,3 +91,16 @@ def test_unknown_action_is_denied():
 
     assert result.decision == "DENY"
     assert result.allowed is False
+
+def test_policy_gateway_blocks_retry_below_policy_confidence():
+    result = evaluate_policy_gate(
+        payment_id="pay_safety_001",
+        amount=1000,
+        action="RETRY_NOW",
+        confidence=0.69,
+        retry_count=0,
+    )
+
+    assert result.decision == "DENY"
+    assert result.allowed is False
+    assert "RETRY_POLICY_BLOCKED" in result.reason_codes
