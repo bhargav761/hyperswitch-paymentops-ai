@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.approvals import router as approvals_router
+from app.api.ai_chat import router as ai_chat_router
 from app.api.dashboard import router as dashboard_router
 from app.api.incidents import router as incidents_router
 from app.api.payments import router as payments_router
@@ -79,3 +80,4 @@ app.include_router(operations_router)
 app.include_router(recovery_queue_router)
 app.include_router(revenue_reliability_router)
 app.include_router(approvals_router)
+app.include_router(ai_chat_router)
