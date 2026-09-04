@@ -276,6 +276,13 @@ def execute_recovery(
                 "requires_approval": policy.requires_approval,
                 "reason_codes": list(policy.reason_codes),
             },
+            "ai": {
+                "diagnosis": ai_analysis["diagnosis"],
+                "recovery_prediction": ai_analysis["recovery_prediction"],
+                "recommendation": ai_analysis["recommendation"],
+                "routing": ai_analysis["routing"],
+                "evidence": ai_analysis["evidence"],
+            },
         },
     )
 
