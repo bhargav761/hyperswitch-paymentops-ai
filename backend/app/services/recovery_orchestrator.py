@@ -152,6 +152,13 @@ def orchestrate_recovery(
                 "reason_codes": list(policy.reason_codes),
             },
             "route": route,
+            "ai": {
+                "diagnosis": ai_analysis.get("diagnosis"),
+                "recovery_prediction": ai_analysis.get("recovery_prediction"),
+                "recommendation": ai_analysis.get("recommendation"),
+                "routing": ai_analysis.get("routing"),
+                "evidence": ai_analysis.get("evidence"),
+            },
         },
     )
 

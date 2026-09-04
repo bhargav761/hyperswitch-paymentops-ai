@@ -91,6 +91,7 @@ def test_ai_chat_returns_404_for_unknown_payment():
         yield FakeDB(None)
 
     app.dependency_overrides[get_db] = override_db
+    app.dependency_overrides[get_llm_gateway] = lambda: FakeGateway()
 
     try:
         client = TestClient(app)
