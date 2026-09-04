@@ -3,7 +3,7 @@ from typing import Any
 
 from google import genai
 
-from app.config.settings import GEMINI_API_KEY, GEMINI_MODEL
+from app.config.settings import GOOGLE_API_KEY, GEMINI_MODEL
 from app.llm.gateway import LLMProvider
 
 
@@ -16,10 +16,10 @@ class GeminiProvider(LLMProvider):
         api_key: str | None = None,
         model: str | None = None,
     ):
-        resolved_api_key = api_key or GEMINI_API_KEY
+        resolved_api_key = api_key or GOOGLE_API_KEY
 
         if not resolved_api_key:
-            raise ValueError("GEMINI_API_KEY is required for GeminiProvider.")
+            raise ValueError("GOOGLE_API_KEY is required for GeminiProvider.")
 
         self._client = genai.Client(api_key=resolved_api_key)
         self._model = model or GEMINI_MODEL

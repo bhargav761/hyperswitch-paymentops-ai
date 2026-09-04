@@ -42,9 +42,9 @@ HYPERSWITCH_TIMEOUT_SECONDS = float(
 
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "gemini").strip().lower()
 
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 GEMINI_MODEL = os.getenv(
     "GEMINI_MODEL",
-    "gemini-3.7-flash",
+    "gemini-3.6-flash",
 )
