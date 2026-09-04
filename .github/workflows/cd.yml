@@ -1,0 +1,71 @@
+name: PaymentOps AI CD
+
+on:
+  workflow_run:
+    workflows:
+      - "PaymentOps AI CI"
+    types:
+      - completed
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: paymentops-ai-cd
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish Container Images
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Set image metadata
+        id: meta
+        run: |
+          echo "sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/paymentops-ai-backend:${{ github.sha }}
+            ghcr.io/${{ github.repository_owner }}/paymentops-ai-backend:latest
+
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/paymentops-ai-frontend:${{ github.sha }}
+            ghcr.io/${{ github.repository_owner }}/paymentops-ai-frontend:latest
+
+      - name: Deployment artifact summary
+        run: |
+          echo "Backend image:"
+          echo "ghcr.io/${{ github.repository_owner }}/paymentops-ai-backend:${{ github.sha }}"
+          echo ""
+          echo "Frontend image:"
+          echo "ghcr.io/${{ github.repository_owner }}/paymentops-ai-frontend:${{ github.sha }}"
