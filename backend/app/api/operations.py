@@ -8,6 +8,7 @@ from app.models.recovery import RecoveryExecution
 from app.observability import metrics
 from app.routing.circuit_breaker import circuit_breaker
 from app.services.recovery_outcome_service import build_recovery_feedback
+from app.services.recovery_timeline_service import get_recovery_timeline
 
 router = APIRouter(
     prefix="/api/v1/operations",
@@ -52,6 +53,30 @@ def recovery_status(
                 "updated_at": execution.updated_at,
             }
             for execution in executions
+        ],
+    }
+
+
+@router.get("/timeline/{payment_id}")
+def recovery_timeline(
+    payment_id: str,
+    db: Session = Depends(get_db),
+):
+    timeline = get_recovery_timeline(db, payment_id=payment_id)
+    return {
+        "payment_id": payment_id,
+        "count": len(timeline),
+        "timeline": [
+            {
+                "id": event.id,
+                "event_type": event.event_type,
+                "recovery_id": event.recovery_id,
+                "correlation_key": event.correlation_key,
+                "status": event.status,
+                "payload": event.payload,
+                "created_at": event.created_at,
+            }
+            for event in timeline
         ],
     }
 

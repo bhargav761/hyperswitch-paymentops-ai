@@ -43,3 +43,13 @@ def test_recovery_audits_empty_for_unknown_payment():
     body = response.json()
     assert body["count"] == 0
     assert body["audits"] == []
+
+
+def test_recovery_timeline_endpoint():
+    response = client.get("/api/v1/operations/timeline/nonexistent-payment")
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["payment_id"] == "nonexistent-payment"
+    assert body["count"] == 0
+    assert body["timeline"] == []
