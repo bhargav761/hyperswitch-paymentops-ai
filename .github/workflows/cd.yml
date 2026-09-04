@@ -1,11 +1,7 @@
 name: PaymentOps AI CD
 
 on:
-  workflow_run:
-    workflows:
-      - "PaymentOps AI CI"
-    types:
-      - completed
+  push:
     branches:
       - master
   workflow_dispatch:
@@ -29,8 +25,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Set image metadata
         id: meta
