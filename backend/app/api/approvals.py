@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
@@ -13,6 +13,12 @@ router = APIRouter(
     prefix="/api/v1/approvals",
     tags=["approvals"],
 )
+
+
+class ApprovalRequest(BaseModel):
+    action: str = Field(min_length=1, max_length=100)
+    reason: str = Field(min_length=1, max_length=1000)
+    confidence: float = Field(ge=0.0, le=1.0)
 
 
 class ApprovalDecision(BaseModel):
@@ -55,9 +61,9 @@ def get_approval(
 @router.post("/{payment_id}/request")
 def request_approval(
     payment_id: str,
-    action: str,
-    reason: str,
-    confidence: float,
+    action: str = Query(..., min_length=1, max_length=100),
+    reason: str = Query(..., min_length=1, max_length=1000),
+    confidence: float = Query(..., ge=0.0, le=1.0),
     db: Session = Depends(get_db),
 ):
     approval = create_or_get_approval(

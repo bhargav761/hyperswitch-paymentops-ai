@@ -7,6 +7,7 @@ from app.config.settings import WEBHOOK_SHARED_SECRET
 from app.schemas.webhook import HyperswitchWebhookEvent
 from app.services.logging_service import get_logger
 from app.services.reconciliation_service import reconcile_recovery_outcome
+from app.services.recovery_event_service import dispatch_recovery_event
 
 logger = get_logger(__name__)
 
@@ -85,6 +86,12 @@ def receive_hyperswitch_webhook(
         db.commit()
         db.refresh(payment)
 
+        recovery_event = dispatch_recovery_event(
+            db=db,
+            payment=payment,
+            event_id=event.event_id,
+        )
+
         reconciliation = reconcile_recovery_outcome(
             db=db,
             payment_id=payment.payment_id,
@@ -106,6 +113,16 @@ def receive_hyperswitch_webhook(
             "created": False,
             "payment_id": payment.payment_id,
             "status": payment.status,
+            "recovery_event": (
+                {
+                    "recovery_id": recovery_event.id,
+                    "status": recovery_event.status,
+                    "action": recovery_event.action,
+                    "idempotency_key": recovery_event.idempotency_key,
+                }
+                if recovery_event
+                else None
+            ),
             "reconciliation": (
                 {
                     "reconciliation_id": reconciliation.reconciliation_id,

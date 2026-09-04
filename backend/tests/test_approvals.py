@@ -138,3 +138,28 @@ def test_approval_status_can_be_retrieved():
 
     finally:
         cleanup(payment_id)
+
+def test_approval_request_rejects_invalid_confidence():
+    response = client.post(
+        "/api/v1/approvals/pay_security_001/request",
+        json={
+            "action": "RETRY_NOW",
+            "reason": "test",
+            "confidence": 2.0,
+        },
+    )
+
+    assert response.status_code == 422
+
+
+def test_approval_request_rejects_empty_reason():
+    response = client.post(
+        "/api/v1/approvals/pay_security_002/request",
+        json={
+            "action": "RETRY_NOW",
+            "reason": "",
+            "confidence": 0.8,
+        },
+    )
+
+    assert response.status_code == 422
