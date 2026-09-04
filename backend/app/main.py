@@ -10,6 +10,7 @@ from app.api.payments import router as payments_router
 from app.api.recovery import router as recovery_router
 from app.api.webhooks import router as webhooks_router
 from app.api.health import router as health_router
+from app.api.operations import router as operations_router
 from app.config.settings import APP_NAME, APP_VERSION, CORS_ORIGINS
 from app.database.base import Base
 from app.models.approval import RecoveryApproval
@@ -72,4 +73,5 @@ app.include_router(incidents_router)
 app.include_router(recovery_router)
 app.include_router(webhooks_router)
 app.include_router(health_router)
+app.include_router(operations_router)
 app.include_router(approvals_router)
