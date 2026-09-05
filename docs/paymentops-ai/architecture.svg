@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#07111f"/>
+    <stop offset="1" stop-color="#10152d"/>
+  </linearGradient>
+  <linearGradient id="ai" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#24154d"/>
+    <stop offset="1" stop-color="#3b1d70"/>
+  </linearGradient>
+  <linearGradient id="ops" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#10352f"/>
+    <stop offset="1" stop-color="#155e52"/>
+  </linearGradient>
+  <linearGradient id="safe" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#102c46"/>
+    <stop offset="1" stop-color="#164e70"/>
+  </linearGradient>
+  <filter id="shadow">
+    <feDropShadow dx="0" dy="8" stdDeviation="10" flood-opacity=".35"/>
+  </filter>
+  <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+    <path d="M0,0 L12,6 L0,12 Z" fill="#67e8f9"/>
+  </marker>
+</defs>
+
+<rect width="1600" height="1000" fill="url(#bg)"/>
+
+<!-- HEADER -->
+<text x="800" y="58" fill="#ffffff" font-family="Arial,sans-serif" font-size="38" font-weight="700" text-anchor="middle">PaymentOps AI</text>
+<text x="800" y="98" fill="#67e8f9" font-family="Arial,sans-serif" font-size="22" font-weight="600" text-anchor="middle">Revenue Reliability Commander</text>
+<text x="800" y="130" fill="#a8bdd1" font-family="Arial,sans-serif" font-size="16" text-anchor="middle">AI-powered payment incident intelligence → controlled recovery → measurable revenue outcome</text>
+
+<!-- FLOW LABELS -->
+<g font-family="Arial,sans-serif" font-weight="700" font-size="15">
+<rect x="120" y="160" width="180" height="42" rx="21" fill="#172b46" stroke="#38bdf8"/>
+<text x="210" y="187" fill="#bae6fd" text-anchor="middle">1 · DETECT</text>
+<rect x="340" y="160" width="180" height="42" rx="21" fill="#21183e" stroke="#a78bfa"/>
+<text x="430" y="187" fill="#ddd6fe" text-anchor="middle">2 · DIAGNOSE</text>
+<rect x="560" y="160" width="180" height="42" rx="21" fill="#12352f" stroke="#34d399"/>
+<text x="650" y="187" fill="#a7f3d0" text-anchor="middle">3 · DECIDE</text>
+<rect x="780" y="160" width="180" height="42" rx="21" fill="#183047" stroke="#38bdf8"/>
+<text x="870" y="187" fill="#bae6fd" text-anchor="middle">4 · RECOVER</text>
+<rect x="1000" y="160" width="180" height="42" rx="21" fill="#12352f" stroke="#34d399"/>
+<text x="1090" y="187" fill="#a7f3d0" text-anchor="middle">5 · VERIFY</text>
+<rect x="1220" y="160" width="260" height="42" rx="21" fill="#21183e" stroke="#a78bfa"/>
+<text x="1350" y="187" fill="#ddd6fe" text-anchor="middle">6 · MEASURE + LEARN</text>
+</g>
+
+<!-- SIGNALS -->
+<rect x="50" y="240" width="250" height="550" rx="20" fill="#0c2035" stroke="#38bdf8" stroke-width="2" filter="url(#shadow)"/>
+<text x="175" y="280" fill="#ffffff" font-family="Arial,sans-serif" font-size="23" font-weight="700" text-anchor="middle">PAYMENT SIGNALS</text>
+<text x="175" y="308" fill="#7dd3fc" font-family="Arial,sans-serif" font-size="14" text-anchor="middle">INPUT / TELEMETRY</text>
+
+<g font-family="Arial,sans-serif" font-size="17" fill="#d7e8f7">
+<rect x="78" y="345" width="194" height="48" rx="10" fill="#102c46"/>
+<text x="175" y="375" text-anchor="middle">Payment Events</text>
+<rect x="78" y="407" width="194" height="48" rx="10" fill="#102c46"/>
+<text x="175" y="437" text-anchor="middle">Webhooks</text>
+<rect x="78" y="469" width="194" height="48" rx="10" fill="#102c46"/>
+<text x="175" y="499" text-anchor="middle">Failures + Latency</text>
+<rect x="78" y="531" width="194" height="48" rx="10" fill="#102c46"/>
+<text x="175" y="561" text-anchor="middle">Checkout Signals</text>
+<rect x="78" y="593" width="194" height="48" rx="10" fill="#102c46"/>
+<text x="175" y="623" text-anchor="middle">Subscriptions</text>
+<rect x="78" y="655" width="194" height="48" rx="10" fill="#102c46"/>
+<text x="175" y="685" text-anchor="middle">Receivables / AR</text>
+<rect x="78" y="717" width="194" height="48" rx="10" fill="#102c46"/>
+<text x="175" y="747" text-anchor="middle">Operational Telemetry</text>
+</g>
+
+<!-- CONTROL PLANE -->
+<rect x="340" y="240" width="920" height="550" rx="22" fill="#0a1426" stroke="#8b5cf6" stroke-width="3" filter="url(#shadow)"/>
+<text x="800" y="280" fill="#ffffff" font-family="Arial,sans-serif" font-size="24" font-weight="700" text-anchor="middle">PAYMENTOPS AI CONTROL PLANE</text>
+
+<!-- AI -->
+<rect x="375" y="320" width="250" height="215" rx="16" fill="url(#ai)" stroke="#a78bfa" stroke-width="2"/>
+<text x="500" y="355" fill="#ffffff" font-family="Arial,sans-serif" font-size="21" font-weight="700" text-anchor="middle">AI INTELLIGENCE</text>
+<g fill="#ede9fe" font-family="Arial,sans-serif" font-size="16">
+<text x="400" y="395">• Incident diagnosis</text>
+<text x="400" y="430">• RAG evidence</text>
+<text x="400" y="465">• LLM Gateway</text>
+<text x="400" y="500">• Operator Copilot</text>
+</g>
+
+<!-- REVENUE -->
+<rect x="650" y="320" width="250" height="215" rx="16" fill="url(#ops)" stroke="#34d399" stroke-width="2"/>
+<text x="775" y="355" fill="#ffffff" font-family="Arial,sans-serif" font-size="21" font-weight="700" text-anchor="middle">REVENUE INTELLIGENCE</text>
+<g fill="#d1fae5" font-family="Arial,sans-serif" font-size="16">
+<text x="675" y="395">• Risk scoring</text>
+<text x="675" y="430">• ₹ revenue at risk</text>
+<text x="675" y="465">• Incident Commander</text>
+<text x="675" y="500">• Recovery decision</text>
+</g>
+
+<!-- SAFETY -->
+<rect x="925" y="320" width="300" height="215" rx="16" fill="url(#safe)" stroke="#38bdf8" stroke-width="2"/>
+<text x="1075" y="355" fill="#ffffff" font-family="Arial,sans-serif" font-size="21" font-weight="700" text-anchor="middle">SAFETY &amp; AUTHORITY</text>
+<g fill="#dbeafe" font-family="Arial,sans-serif" font-size="16">
+<text x="950" y="395">• Deterministic policy</text>
+<text x="950" y="430">• Security guardrails</text>
+<text x="950" y="465">• Approval gates</text>
+<text x="950" y="500">• Idempotency / limits</text>
+</g>
+
+<!-- RECOVERY -->
+<rect x="375" y="575" width="850" height="175" rx="16" fill="#0e1d31" stroke="#60a5fa" stroke-width="2"/>
+<text x="800" y="612" fill="#ffffff" font-family="Arial,sans-serif" font-size="20" font-weight="700" text-anchor="middle">CONTROLLED RECOVERY EXECUTION</text>
+
+<g font-family="Arial,sans-serif" font-size="15" font-weight="700">
+<rect x="400" y="640" width="130" height="55" rx="12" fill="#162d45"/>
+<text x="465" y="674" fill="#bae6fd" text-anchor="middle">QUEUE</text>
+<rect x="555" y="640" width="130" height="55" rx="12" fill="#162d45"/>
+<text x="620" y="674" fill="#bae6fd" text-anchor="middle">WORKER</text>
+<rect x="710" y="640" width="130" height="55" rx="12" fill="#12352f"/>
+<text x="775" y="674" fill="#a7f3d0" text-anchor="middle">EXECUTE</text>
+<rect x="865" y="640" width="130" height="55" rx="12" fill="#12352f"/>
+<text x="930" y="674" fill="#a7f3d0" text-anchor="middle">VERIFY</text>
+<rect x="1020" y="640" width="130" height="55" rx="12" fill="#21183e"/>
+<text x="1085" y="674" fill="#ddd6fe" text-anchor="middle">AUDIT</text>
+</g>
+<text x="800" y="725" fill="#94a9bf" font-family="Arial,sans-serif" font-size="14" text-anchor="middle">Retry / Reroute · Remediation · Rollback · Timeline · Evidence</text>
+
+<!-- INFRA -->
+<rect x="1330" y="240" width="220" height="550" rx="20" fill="#10261f" stroke="#34d399" stroke-width="2" filter="url(#shadow)"/>
+<text x="1440" y="280" fill="#ffffff" font-family="Arial,sans-serif" font-size="21" font-weight="700" text-anchor="middle">PAYMENT INFRA</text>
+<text x="1440" y="306" fill="#86efac" font-family="Arial,sans-serif" font-size="14" text-anchor="middle">HYPERSWITCH</text>
+
+<g font-family="Arial,sans-serif" font-size="16" fill="#d1fae5">
+<rect x="1355" y="345" width="170" height="48" rx="10" fill="#16372f"/>
+<text x="1440" y="375" text-anchor="middle">Payments</text>
+<rect x="1355" y="407" width="170" height="48" rx="10" fill="#16372f"/>
+<text x="1440" y="437" text-anchor="middle">Connectors</text>
+<rect x="1355" y="469" width="170" height="48" rx="10" fill="#16372f"/>
+<text x="1440" y="499" text-anchor="middle">Routing</text>
+<rect x="1355" y="531" width="170" height="48" rx="10" fill="#16372f"/>
+<text x="1440" y="561" text-anchor="middle">Retries</text>
+<rect x="1355" y="593" width="170" height="48" rx="10" fill="#16372f"/>
+<text x="1440" y="623" text-anchor="middle">Mandates</text>
+<rect x="1355" y="655" width="170" height="48" rx="10" fill="#16372f"/>
+<text x="1440" y="685" text-anchor="middle">Payment State</text>
+<rect x="1355" y="717" width="170" height="48" rx="10" fill="#16372f"/>
+<text x="1440" y="747" text-anchor="middle">Webhooks</text>
+</g>
+
+<!-- CONNECTIONS -->
+<path d="M300 515 L340 515" stroke="#67e8f9" stroke-width="4" marker-end="url(#arrow)"/>
+<path d="M1260 515 L1330 515" stroke="#34d399" stroke-width="4" marker-end="url(#arrow)"/>
+<path d="M625 425 L650 425" stroke="#a78bfa" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M900 425 L925 425" stroke="#34d399" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M1075 535 L1075 575" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+
+<!-- BOTTOM OUTCOME -->
+<rect x="160" y="835" width="1280" height="105" rx="20" fill="#0b1729" stroke="#64748b" stroke-width="2"/>
+<text x="800" y="872" fill="#ffffff" font-family="Arial,sans-serif" font-size="20" font-weight="700" text-anchor="middle">BUSINESS OUTCOME</text>
+<text x="800" y="906" fill="#a7f3d0" font-family="Arial,sans-serif" font-size="18" text-anchor="middle">Revenue Recovered / Protected  •  Incidents Resolved  •  Safe Rollback  •  Audit Evidence  •  Reliability Learning</text>
+
+<text x="800" y="975" fill="#64748b" font-family="Arial,sans-serif" font-size="13" text-anchor="middle">PaymentOps AI separates AI reasoning from execution authority — every recovery action remains policy-controlled and observable.</text>
+</svg>
